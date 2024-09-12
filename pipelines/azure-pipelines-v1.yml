@@ -1,0 +1,69 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- none
+
+stages:
+- stage: ci
+  displayName: Integracion Continua
+  jobs:
+  - job: Compilacion
+    displayName: Compilacion y Sonar
+    pool:
+        vmImage: ubuntu-latest
+    steps:
+    - checkout: self
+      fetchDepth: 0
+      #Preparar SonarCloud
+    - task: SonarCloudPrepare@1
+      displayName: "Preparar SonarCloud"
+      inputs:
+        SonarCloud: 'Sonar-Cloud'
+        organization: 'omar-noriega'
+        scannerMode: 'Other'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+          sonar.projectKey=onoriega_kyndryl-workshop-devops
+          sonar.projectName=kyndryl-workshop-devops
+
+      #Compilación con Maven
+    - task: Maven@3
+      displayName: "Compilar (Build) con Maven & Ejecutar análisis con SonarQube"
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        codeCoverageToolOption: 'JaCoCo'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        mavenVersionOption: 'Default'
+        jdkArchitectureOption: 'x64'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: true
+        isJacocoCoverageReportXML: true
+        sqMavenPluginVersionChoice: 'latest'
+        goals: 'package'
+    - task: PublishTestResults@2
+      displayName: "Publicar Resultados de Test"
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/TEST-*.xml'
+        testRunTitle: 'Resultados Testing'
+    - task: SonarCloudPublish@1
+      displayname: "Publicar Resultados en SonarCloud"
+      inputs:
+        pollingTimeoutSec: '300'
+    - task: Docker@2
+      displayName: "Build Docker Image"
+      inputs:
+        containerRegistry: 'docker-hub-omar'
+        repository: 'noriegadocker/kyndryl-workshop-ci'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'

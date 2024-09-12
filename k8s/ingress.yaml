@@ -1,0 +1,29 @@
+
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: kyndryl-workshop-ingress
+  namespace: kyndryl-workshop-namespace
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2023-09-22T07:26:51Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:rules: {}
+spec:
+  rules:
+    - host: kyndryl-workshop-devops.azurewebsites.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kyndryl-workshop-servicio
+                port:
+                  number: 80
+status:
+  loadBalancer: {}
