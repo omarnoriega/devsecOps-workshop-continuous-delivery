@@ -76,9 +76,10 @@ steps:
   inputs:
     displayName: Deploy to Kubernetes cluster
     action: deploy
-    namespace: $(k8sNamespace)
+    namespace: 'kyndryl-workshop-namespace'
     manifests: |
         **/k8s/deployment.yml
         **/k8s/ingress.yml
     containers: |
          noriegadocker/kyndryl-workshop-ci
+    kubernetesServiceConnection: 'Service-Conn-AKS'    
