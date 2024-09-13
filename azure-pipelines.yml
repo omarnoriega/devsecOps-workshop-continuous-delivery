@@ -72,13 +72,7 @@ steps:
     tags: |
       $(Build.BuildId)
       
-- task: Kubernetes@1
+- task: kubectlapply@3
   inputs:
-    displayName: "Deployment on AKS"
-    connectionType: 'kubernetesServiceConnection'
-    kubernetesServiceConnection: 'Service-Conn-AKS'
-    kubernetesCluster: 'kyndryl-devsecops-workshop'
-    namespace: 'kyndryl-workshop-namespace'
-    command: 'apply'
-    useConfigurationFile: true
-    configuration: '$(Pipeline.Workspace)/k8s/deployment.yaml'
+    k8sService: 'Service-Conn-AKS'
+    yamlfile: '$(Pipeline.Workspace)/k8s/deployment.yaml'
