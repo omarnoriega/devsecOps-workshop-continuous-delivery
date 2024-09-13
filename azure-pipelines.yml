@@ -72,22 +72,8 @@ steps:
     tags: |
       $(Build.BuildId)
 
-
-
       
-- stage: Deploy
-  displayName: Deploy stage
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy job
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'myenv.aksnamespace' #customize with your environment
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
+- task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
