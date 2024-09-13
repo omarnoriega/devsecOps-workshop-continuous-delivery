@@ -53,11 +53,15 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     testRunTitle: 'Resultados Testing'
 
-- task: SonarCloudPublish@1
+- task: SonarCloudAnalyze@2
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarCloudPublish@2
   inputs:
     displayname: "Publicar Resultados en SonarCloud"
     pollingTimeoutSec: '300'
-
+    
 - task: Docker@2
   inputs:
     displayName: "Build Docker Image"
