@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: kyndryl-workshop-contenedor
-          image: noriegadocker/kyndryl-workshop-ci:24
+          image: noriegadocker/kyndryl-workshop-ci:latest
           ports:
             - containerPort: 80
 

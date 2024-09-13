@@ -13,11 +13,10 @@ steps:
 - checkout: self
   fetchDepth: 0
 #Preparar SonarCloud
-- task: SonarCloudPrepare@1
-  displayName: "Preparar SonarCloud"
+- task: SonarCloudPrepare@2
   inputs:
     displayname: "Preparar SonarCloud"
-    SonarCloud: 'Sonar-Cloud'
+    SonarCloud: 'SonarCloud'
     organization: '@omarnoriega'
     scannerMode: 'Other'
     extraProperties: |
@@ -62,8 +61,8 @@ steps:
 - task: Docker@2
   inputs:
     displayName: "Build Docker Image"
-    containerRegistry: 'docker-hub-omar'
-    repository: 'noriegadocker / kyndryl-workshop-ci'
+    containerRegistry: 'Service-Connection-Docker'
+    repository: 'noriegadocker/kyndryl-workshop-ci'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |
@@ -72,11 +71,10 @@ steps:
 - task: Kubernetes@1
   inputs:
     displayName: "Deployment on AKS"
-    connectionType: 'Azure Resource Manager'
-    azureSubscription: 'DEV-crp-cio-hst-MJIL-AppData-11111'
-    azureResourceGroup: 'rg-ConsultCEC-kcl-eastus-001'
+    connectionType: 'kubernetesServiceConnection'
+    kubernetesServiceConnection: 'Service-Conn-AKS'
     kubernetesCluster: 'kyndryl-devsecops-workshop'
-    namespace: 'default'
+    namespace: 'kyndryl-workshop-namespace'
     command: 'apply'
     useConfigurationFile: true
     configuration: '$(Pipeline.Workspace)/k8s/deployment.yaml'
