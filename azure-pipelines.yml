@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+- main
 
 pool:
   vmImage: ubuntu-latest
@@ -24,8 +24,8 @@ steps:
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       # sonar.exclusions=**/*.bin
-      sonar.projectKey=onoriega_kyndryl-workshop-devops
-      sonar.projectName=kyndryl-workshop-devops
+      sonar.projectKey=omarnoriega_devsecOps-workshop-continuous-delivery
+      sonar.projectName=devsecOps-workshop-continuous-delivery
 
 #Compilación con Maven
 - task: Maven@3
