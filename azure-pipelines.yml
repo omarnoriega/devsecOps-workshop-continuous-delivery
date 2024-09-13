@@ -18,7 +18,7 @@ steps:
   inputs:
     displayname: "Preparar SonarCloud"
     SonarCloud: 'Sonar-Cloud'
-    organization: 'omar-noriega'
+    organization: '@omarnoriega'
     scannerMode: 'Other'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
