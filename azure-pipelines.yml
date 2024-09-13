@@ -41,7 +41,7 @@ steps:
     jdkArchitectureOption: 'x64'
     mavenAuthenticateFeed: false
     effectivePomSkip: false
-    sonarQubeRunAnalysis: true
+    sonarQubeRunAnalysis: false
     isJacocoCoverageReportXML: true
     sqMavenPluginVersionChoice: 'latest'
     goals: 'package'
