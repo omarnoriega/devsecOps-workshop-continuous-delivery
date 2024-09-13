@@ -71,8 +71,29 @@ steps:
     Dockerfile: '**/Dockerfile'
     tags: |
       $(Build.BuildId)
+
+
+
       
-- task: kubectlapply@3
-  inputs:
-    k8sService: 'Service-Conn-AKS'
-    yamlfile: '$(Pipeline.Workspace)/k8s/deployment.yaml'
+- stage: Deploy
+  displayName: Deploy stage
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy job
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'myenv.aksnamespace' #customize with your environment
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sNamespace)
+              manifests: |
+                **/k8s/deployment.yml
+                **/k8s/ingress.yml
+              containers: |
+                noriegadocker/kyndryl-workshop-ci
