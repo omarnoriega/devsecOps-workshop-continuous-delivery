@@ -71,14 +71,3 @@ steps:
     Dockerfile: '**/Dockerfile'
     tags: |
       $(Build.BuildId)
-   
-- task: KubernetesManifest@0
-  inputs:
-    displayName: Deploy to Kubernetes cluster
-    action: deploy
-    namespace: $(k8sNamespace)
-    manifests: |
-        **/k8s/deployment.yml
-        **/k8s/ingress.yml
-    containers: |
-         noriegadocker/kyndryl-workshop-ci
