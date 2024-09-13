@@ -1,4 +1,3 @@
 FROM amazoncorretto:11-alpine-jdk
-MAINTAINER omar.noriega
-COPY target/kyndryl-workshop*.jar kyndryl-workshop-1.0.0.jar
-ENTRYPOINT ["java","-jar","/kyndryl-workshop-1.0.0.jar"]
+COPY target/devsecOps-workshop-continuous-delivery*.jar devsecOps-workshop-continuous-delivery-0.0.1.jar
+ENTRYPOINT ["java","-jar","/devsecOps-workshop-continuous-delivery-0.0.1.jar"]
