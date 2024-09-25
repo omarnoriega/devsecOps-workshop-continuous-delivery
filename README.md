@@ -10,6 +10,7 @@ Está diseñado principalmente para la ejecución de un pipeline CI/CD en Azure 
 - Analisis de Código Estatido (SAST)
 - Compilar aertefacto (.JAR)
 - Compilar y Publicar Imagen Docker
+- Desplegar en AKS (Building)
 
 ### Tecnologias
 
